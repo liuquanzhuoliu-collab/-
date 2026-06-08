@@ -115,33 +115,33 @@
         const fileInput = document.getElementById('fileInput');
         const uploadBox = document.getElementById('uploadBox');
 
-        // 加载AI模型
         async function loadModel() {
             loading.style.display = 'block';
             model = await mobilenet.load();
             loading.style.display = 'none';
-            alert('AI模型加载完成！你可以上传图片了');
+            alert('AI模型加载完成！可以上传图片啦');
         }
 
-        // 点击上传
-        uploadBox.addEventListener('click', () => fileInput.click());
+        uploadBox.addEventListener('click', () => {
+            fileInput.click();
+        });
 
-        // 文件选择
         fileInput.addEventListener('change', async (e) => {
             const files = e.target.files;
             if (!files.length) return;
             handleFiles(files);
         });
 
-        // 拖拽上传
-        uploadBox.addEventListener('dragover', (e) => e.preventDefault());
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
         uploadBox.addEventListener('drop', async (e) => {
             e.preventDefault();
             const files = e.dataTransfer.files;
             handleFiles(files);
         });
 
-        // 处理所有图片
         async function handleFiles(files) {
             preview.innerHTML = '';
             
@@ -152,13 +152,13 @@
                 const url = URL.createObjectURL(file);
                 img.src = url;
 
-                await new Promise(resolve => img.onload = resolve);
+                await new Promise(resolve => {
+                    img.onload = resolve;
+                });
                 
-                // AI分类识别
                 const predictions = await model.classify(img);
                 const best = predictions[0];
                 
-                // 显示结果
                 const item = document.createElement('div');
                 item.className = 'img-item';
                 item.innerHTML = `
@@ -172,7 +172,6 @@
             }
         }
 
-        // 启动
         loadModel();
     </script>
 </body>
